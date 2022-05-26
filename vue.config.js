@@ -6,6 +6,7 @@ const url =
 module.exports = {
   lintOnSave: false,
   productionSourceMap: false,
+
   devServer: {
     // 开发环境代理服务器
     proxy: {
@@ -20,4 +21,8 @@ module.exports = {
       },
     },
   },
+
+  transpileDependencies: [
+    'vuetify'
+  ]
 };
