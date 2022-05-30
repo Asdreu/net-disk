@@ -13,6 +13,7 @@ requests.interceptors.request.use(
     if (/login/.test(config.url)) {
       return config;
     } else {
+      // TODO: 逻辑有点问题，注意处理
       config.headers.authorization = store.state.token;
       return config;
     }
@@ -24,13 +25,13 @@ requests.interceptors.request.use(
 
 requests.interceptors.response.use(
   (res) => {
-    if ([805, 806, 822, 823].includes(res.data.code)) {
+    /* if ([805, 806, 822, 823].includes(res.data.code)) {
       // 无法验证 Token, 跳转到登录页面
       router.replace({
         path: "/login",
       });
-    }
-    return res;
+    } */
+    return res.data;
   },
   (err) => {
     console.log(err);
