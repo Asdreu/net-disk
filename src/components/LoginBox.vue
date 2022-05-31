@@ -10,7 +10,6 @@
         <v-row class="mb-12">
           <v-col><img src="../assets/images/name.png" width="350px" /></v-col>
         </v-row>
-
         <v-row justify="center" class="mb-n8">
           <v-col cols="8">
             <v-text-field
@@ -23,7 +22,6 @@
             ></v-text-field>
           </v-col>
         </v-row>
-
         <v-row justify="center">
           <v-col cols="8">
             <v-text-field
@@ -37,7 +35,6 @@
             ></v-text-field>
           </v-col>
         </v-row>
-
         <v-row justify="center">
           <v-col cols="12" class="d-flex justify-center">
             <v-btn width="150" rounded color="orange darken-1" @click="login"
@@ -45,7 +42,6 @@
             >
           </v-col>
         </v-row>
-
         <v-row class="mt-10">
           <v-col class="d-flex justify-center">
             <a @click="toRegister">注册</a>
@@ -84,7 +80,7 @@ export default {
       if (this.username === "" || this.password === "") {
         this.$store.commit("alterSnackbar", {
           color: "error",
-          text: "username and password can not be empty!",
+          text: "用户名和密码不能为空",
         });
       }
 
@@ -93,8 +89,16 @@ export default {
           username: this.username,
           password: this.password,
         });
+        this.$router.push("/home");
+        this.$store.commit("alterSnackbar", {
+          color: "success",
+          text: "欢迎来到个人云盘",
+        });
       } catch (error) {
-        console.log(error);
+        this.$store.commit("alterSnackbar", {
+          color: "error",
+          text: error.message,
+        });
       }
     },
   },

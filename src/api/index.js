@@ -11,3 +11,28 @@ export const reqLogin = (userName, password) => {
     },
   });
 };
+
+export const reqCheckUsername = (username) => {
+  return request({
+    url: "/login/checkname",
+    method: "post",
+    data: {
+      user_name: username,
+    },
+  });
+};
+
+export const reqGetQuestions = () => {
+  return request({
+    url: "/login/getquestions",
+    method: "get",
+  });
+};
+
+export const reqRegister = (params) => {
+  return request({
+    url: "/login/signin",
+    method: "post",
+    data: params
+  });
+}

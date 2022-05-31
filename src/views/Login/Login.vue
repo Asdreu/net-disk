@@ -37,6 +37,11 @@
     </v-sheet>
 
     <login-box v-if="boxType === 'login'" :type.sync="boxType"></login-box>
+    <register-box
+      v-else-if="boxType === 'register'"
+      @cancel="boxType = 'login'"
+    ></register-box>
+    <reset-box v-else></reset-box>
   </div>
 </template>
 
