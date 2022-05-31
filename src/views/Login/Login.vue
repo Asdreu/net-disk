@@ -36,13 +36,23 @@
       </div>
     </v-sheet>
 
-    <LoginBox></LoginBox>
+    <login-box v-if="boxType === 'login'" :type.sync="boxType"></login-box>
+    <register-box
+      v-else-if="boxType === 'register'"
+      @cancel="boxType = 'login'"
+    ></register-box>
+    <reset-box v-else></reset-box>
   </div>
 </template>
 
 <script>
 export default {
   name: "Login",
+  data() {
+    return {
+      boxType: "login",
+    };
+  },
 };
 </script>
 
