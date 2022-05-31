@@ -127,7 +127,7 @@ export default {
     async getQuestions() {
       try {
         await this.$store.dispatch("getQuestions");
-        this.items = this.$store.state.questions;
+        this.items = this.$store.state.user.questions;
       } catch (error) {
         this.$store.commit("alterSnackbar", {
           color: "error",

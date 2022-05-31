@@ -84,6 +84,7 @@ export default {
           color: "error",
           text: "用户名和密码不能为空",
         });
+        return;
       }
 
       try {

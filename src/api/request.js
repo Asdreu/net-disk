@@ -14,7 +14,7 @@ requests.interceptors.request.use(
       return config;
     } else {
       // TODO: 逻辑有点问题，注意处理
-      config.headers.authorization = store.state.token;
+      config.headers.authorization = store.state.user.token;
       return config;
     }
   },
