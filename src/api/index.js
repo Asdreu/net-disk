@@ -1,13 +1,12 @@
 import request from "./request.js";
-import SparkMD5 from "spark-md5";
 
-export const reqLogin = (userName, password) => {
+export const reqLogin = (username, password) => {
   return request({
     url: "/login/login",
     method: "post",
     data: {
-      user_name: userName,
-      user_password: SparkMD5.hash(password),
+      user_name: username,
+      user_password: password,
     },
   });
 };
