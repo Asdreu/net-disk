@@ -32,6 +32,15 @@ export const reqRegister = (params) => {
   return request({
     url: "/login/signin",
     method: "post",
-    data: params
+    data: params,
   });
-}
+};
+
+export const reqUploadChunk = (params, onUploadProgress) => {
+  return request({
+    url: "/upload/upload",
+    method: "post",
+    data: params,
+    onUploadProgress: onUploadProgress,
+  });
+};

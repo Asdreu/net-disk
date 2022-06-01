@@ -63,7 +63,7 @@
 
     <v-main>
       <v-container fluid>
-        <upload-box></upload-box>
+        <upload-box :userId="userInfo.userId"></upload-box>
       </v-container>
     </v-main>
   </div>

@@ -1,6 +1,6 @@
 const state = {
   snackbar: false,
-  snackbarTimeout: 3000,
+  snackbarTimeout: 2000,
   snackbarColor: "",
   snackbarText: "",
 };
