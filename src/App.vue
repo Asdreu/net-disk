@@ -2,19 +2,19 @@
   <v-app>
     <!-- 全局弹出的信息条 -->
     <v-snackbar
-      v-model="$store.state.snackbar"
+      v-model="$store.state.snackbar.snackbar"
       top
-      :timeout="$store.state.snackbarTimeout"
+      :timeout="time"
     >
       <span class="d-flex justify-center align-center">{{
-        $store.state.snackbarText
+        text
       }}</span>
       <template v-slot:action="{ attrs }">
         <v-btn
           color="blue"
           text
           v-bind="attrs"
-          @click="$store.state.snackbar = false"
+          @click="$store.state.snackbar.snackbar = false"
         >
           Close
         </v-btn>
@@ -27,8 +27,13 @@
 <script>
 export default {
   name: "App",
-  data() {
-    return {};
-  },
+  computed: {
+    time() {
+      return this.$store.state.snackbar.snackbarTimeout;
+    },
+    text() {
+      return this.$store.state.snackbar.snackbarText;
+    }
+  }
 };
 </script>

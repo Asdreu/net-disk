@@ -106,6 +106,8 @@
   </div>
 </template>
 <script>
+import SparkMD5 from "spark-md5";
+
 export default {
   name: "RegisterBox",
   data() {
@@ -125,7 +127,7 @@ export default {
     async getQuestions() {
       try {
         await this.$store.dispatch("getQuestions");
-        this.items = this.$store.state.questions;
+        this.items = this.$store.state.user.questions;
       } catch (error) {
         this.$store.commit("alterSnackbar", {
           color: "error",
@@ -193,7 +195,7 @@ export default {
 
       const params = {
         user_name: this.username,
-        user_password: this.password,
+        user_password: SparkMD5.hash(this.password),
         user_question: this.question,
         user_answer: this.answer,
         mock: "mock",

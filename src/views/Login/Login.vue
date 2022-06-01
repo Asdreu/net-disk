@@ -10,7 +10,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <a v-bind="attrs" v-on="on" href="https://github.com/Asdreu">
-              <img src="../assets/images/github.png" />
+              <img src="../../assets/images/github.png" />
             </a>
           </template>
           <span>我的 GitHub</span>
@@ -19,7 +19,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <a v-bind="attrs" v-on="on" href="https://github.com/Asdreu">
-              <img src="../assets/images/weixin.png" />
+              <img src="../../assets/images/weixin.png" />
             </a>
           </template>
           <span>联系开发者</span>
@@ -28,7 +28,7 @@
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <a v-bind="attrs" v-on="on" href="https://www.alonepluto.info/free">
-              <img src="../assets/images/find.png" />
+              <img src="../../assets/images/find.png" />
             </a>
           </template>
           <span>发现更多</span>
@@ -59,7 +59,7 @@ export default {
 <style lang="scss" scoped>
 .login-page {
   height: 100vh;
-  background-image: url("../assets/images/bg.jpg");
+  background-image: url("../../assets/images/bg.jpg");
   background-size: cover;
   .bar {
     position: fixed;

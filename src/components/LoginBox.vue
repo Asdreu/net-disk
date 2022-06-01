@@ -56,6 +56,8 @@
 </template>
 
 <script>
+import SparkMD5 from 'spark-md5';
+
 export default {
   name: "LoginBox",
   props: {
@@ -82,12 +84,13 @@ export default {
           color: "error",
           text: "用户名和密码不能为空",
         });
+        return;
       }
 
       try {
         await this.$store.dispatch("login", {
           username: this.username,
-          password: this.password,
+          password: SparkMD5.hash(this.password),
         });
         this.$router.push("/home");
         this.$store.commit("alterSnackbar", {
