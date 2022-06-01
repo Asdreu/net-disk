@@ -4,11 +4,12 @@ import {
   reqGetQuestions,
   reqRegister,
 } from "../api/index.js";
-import { setToken, getToken } from "../utils/token.js";
+import { setToken, getToken, removeToken } from "../utils/token.js";
+import { setUserInfo } from '../utils/temporary-user-info.js';
 
 const state = {
   token: getToken(),
-  user: {},
+  userInfo: {},
   folders: [],
   questions: [],
   isLocked: false,
@@ -55,17 +56,33 @@ const actions = {
       return Promise.reject(new Error(result.message));
     }
   },
+
+  quit({ commit }) {
+    removeToken();
+    commit("QUIT");
+  },
 };
 
 const mutations = {
   LOGIN(state, data) {
     state.token = getToken();
-    state.user = data.user;
+    state.userInfo = data.user;
+    // 会话存储用户信息
+    setUserInfo(data.user);
     state.folders = data.folders;
   },
 
   GETQUESTIONS(state, questions) {
     state.questions = questions;
+  },
+
+  QUIT(state) {
+    state.userInfo = null;
+    state.token = null;
+  },
+
+  changeIsLocked(state, status) {
+    state.isLocked = status;
   },
 };
 
