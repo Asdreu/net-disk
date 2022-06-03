@@ -64,6 +64,11 @@
     <v-main>
       <v-container fluid>
         <upload-box :userId="userInfo.userId"></upload-box>
+        <transition name="slide-fade" mode="out-in">
+          <keep-alive>
+            <router-view></router-view>
+          </keep-alive>
+        </transition>
       </v-container>
     </v-main>
   </div>

@@ -36,10 +36,10 @@
               <span>{{ index + 1 }}.{{ file.name }}</span>
               <v-icon @click="deleteFile(index)">mdi-close</v-icon>
             </div>
-            <!-- <v-progress-linear
+            <progress-linear
               :complated="percentage"
               :active="file.name === currentFile.name ? true : false"
-            ></v-progress-linear> -->
+            ></progress-linear>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -69,7 +69,7 @@
 
 <script>
 import SparkMD5 from "spark-md5";
-import { cutBlob } from "../utils/file-processing.js";
+import { cutBlob, makeMini } from "../utils/file-processing.js";
 
 export default {
   name: "UploadBox",
@@ -128,15 +128,15 @@ export default {
 
     async upload() {
       this.uploading = true;
+
       for (let file of this.files) {
         this.currentFile = file;
 
         // 进行切片
         let chunks = await cutBlob(file);
-
         let promiseArr = chunks.chunkArr.map((chunk, index) => {
           return new Promise(async (resolve, reject) => {
-            // 参数使用 FromData 格式
+            // 参数使用 FormData 格式
             let params = new FormData();
             params.append("hash", this.hash);
             params.append("chunk", chunk);
@@ -169,7 +169,7 @@ export default {
           });
         });
 
-        let result = await Promise.all(promiseArr).then(
+        let resultOfUploadChunks = await Promise.all(promiseArr).then(
           (res) => {
             return 1;
           },
@@ -178,16 +178,53 @@ export default {
           }
         );
 
-        if (result === 0) {
+        // 上传失败
+        if (resultOfUploadChunks === 0) {
           this.$store.commit("alterSnackbar", {
             color: "error",
-            text: `${this.file.name}上传失败`
+            text: `${chunks.fileInfo.name}上传失败`,
           });
           continue;
         }
 
-        // TODO: 制作迷你图
+        // 制作迷你图
+        let mini = await makeMini(file);
+        const params = {
+          hash: this.hash,
+          chunkNum: chunks.fileInfo.total,
+          file_name: chunks.fileInfo.name,
+          file_size: chunks.fileInfo.size,
+          file_type: chunks.fileInfo.type,
+          file_mini: mini,
+        };
+        try {
+          let returnData = await this.$store.dispatch("uploadMiniPic", params);
+          this.completedNum++;
+          this.completedFiles.push(returnData);
+          this.completedFileName.push(returnData.file_name);
+          this.currentFileLoaded = 0;
+          this.percentage = 0;
+        } catch (error) {
+          this.$store.commit("alterSnackbar", {
+            color: "error",
+            text: `${chunks.fileInfo.name}的迷你图上传失败`,
+          });
+        }
       }
+
+      this.uploading = false;
+      this.$store.commit("alterSnackbar", {
+        color: "success",
+        text: "上传成功",
+      });
+
+      // TODO: 发布事件
+
+      this.completedNum = 0;
+      this.files = [];
+      this.completedFiles = [];
+      this.completedFileName = [];
+      this.currentFile = {};
     },
   },
 };

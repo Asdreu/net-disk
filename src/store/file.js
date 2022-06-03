@@ -1,4 +1,4 @@
-import { reqUploadChunk } from "../api/index.js";
+import { reqUploadChunk, reqUploadMiniPic } from "../api/index.js";
 
 const actions = {
   async uploadChunk({ commit }, { params, onUploadProgress }) {
@@ -9,6 +9,15 @@ const actions = {
       return Promise.reject(new Error(result.message));
     }
   },
+
+  async uploadMiniPic({ commit }, params) {
+    const result = await reqUploadMiniPic(params);
+    if (result.code === 808) {
+      return result.data;
+    } else {
+      return Promise.reject(new Error(result.message));
+    }
+  }
 };
 
 const mutations = {};

@@ -44,3 +44,11 @@ export const reqUploadChunk = (params, onUploadProgress) => {
     onUploadProgress: onUploadProgress,
   });
 };
+
+export const reqUploadMiniPic = (params) => {
+  return request({
+    url: "/upload/completed",
+    method: "post",
+    data: params,
+  });
+};

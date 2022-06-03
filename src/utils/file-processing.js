@@ -4,6 +4,7 @@ export const cutBlob = (file) => {
     File.prototype.slice ||
     File.prototype.mozSlice ||
     File.prototype.webkitSlice;
+
   // 切片大小
   const chunkSize = 2 * 1024 * 1024;
   // 切片数量
@@ -36,4 +37,52 @@ export const cutBlob = (file) => {
   });
 };
 
-// TODO: 迷你图
+export const makeMini = async (file) => {
+  const url = URL.createObjectURL(file);
+  if (/image/.test(file.type)) {
+    // 制作图片迷你图
+    function makeMiniPic() {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => {
+          const width = img.width;
+          const height = img.height;
+
+          const canvas = document.createElement("canvas");
+          canvas.width = 200;
+          canvas.height = 200 * (height / width);
+          canvas
+            .getContext("2d")
+            .drawImage(img, 0, 0, canvas.width, canvas.height);
+          const base64 = canvas.toDataURL("image/png");
+          resolve(base64);
+        };
+      });
+    }
+    const result = await makeMiniPic();
+    return result;
+  } else if (/video/.test(file.type)) {
+    function makeMiniPic() {
+      return new Promise((resolve, reject) => {
+        const video = document.createElement("video");
+        video.src = url;
+        video.onloadeddata = () => {
+          const width = video.videoWidth;
+          const height = video.videoHeight;
+
+          const canvas = document.createElement("canvas");
+          canvas.width = 200;
+          canvas.height = 200 * (height / width);
+          canvas
+            .getContext("2d")
+            .drawImage(video, 0, 0, canvas.width, canvas.height);
+          const base64 = canvas.toDataURL("image/png");
+          resolve(base64);
+        };
+      });
+    }
+    const result = await makeMiniPic();
+    return result;
+  }
+};
