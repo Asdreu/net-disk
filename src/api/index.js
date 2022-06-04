@@ -52,3 +52,11 @@ export const reqUploadMiniPic = (params) => {
     data: params,
   });
 };
+
+export const reqGetTimelineDataLimit = (params) => {
+  return request({
+    url: "/data/getTimelineDataLimit",
+    method: "get",
+    data: params,
+  });
+};

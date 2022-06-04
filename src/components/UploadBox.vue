@@ -215,10 +215,11 @@ export default {
       this.uploading = false;
       this.$store.commit("alterSnackbar", {
         color: "success",
-        text: "上传成功",
+        text: "所有文件上传成功",
       });
 
-      // TODO: 发布事件
+      // 触发上传事件
+      this.$bus.$emit("upload-files", this.completedFiles);
 
       this.completedNum = 0;
       this.files = [];

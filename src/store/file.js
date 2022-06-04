@@ -1,4 +1,8 @@
-import { reqUploadChunk, reqUploadMiniPic } from "../api/index.js";
+import {
+  reqUploadChunk,
+  reqUploadMiniPic,
+  reqGetTimelineDataLimit,
+} from "../api/index.js";
 
 const actions = {
   async uploadChunk({ commit }, { params, onUploadProgress }) {
@@ -17,7 +21,16 @@ const actions = {
     } else {
       return Promise.reject(new Error(result.message));
     }
-  }
+  },
+
+  async getTimelineDataLimit({ commit }, params) {
+    const result = await reqGetTimelineDataLimit(params);
+    if (result.code === 800) {
+      return result.data;
+    } else {
+      return Promise.reject(new Error(result.message));
+    }
+  },
 };
 
 const mutations = {};
