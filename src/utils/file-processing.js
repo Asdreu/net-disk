@@ -86,3 +86,15 @@ export const makeMini = async (file) => {
     return result;
   }
 };
+
+export const formatFileSize = (value) => {
+  const size = Number(value);
+  const unit = 1024 * 1024;
+  const a = size / unit;
+  const b = a + "";
+  if (b.indexOf(".") === -1) {
+    return a;
+  } else {
+    return a.toFixed(2);
+  }
+}

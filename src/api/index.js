@@ -60,3 +60,44 @@ export const reqGetTimelineDataLimit = (params) => {
     data: params,
   });
 };
+
+export const reqGetAllTimelineData = () => {
+  return request({
+    url: "/data/getTimelineData",
+    method: "get",
+  });
+};
+
+export const reqGetAllImageData = () => {
+  return request({
+    url: "/data/getImageData",
+    method: "get",
+  });
+};
+
+export const reqGetAllVideoData = () => {
+  return request({
+    url: "/data/getvideoData",
+    method: "get",
+  });
+};
+
+export const reqDeleteFileById = (fileId) => {
+  return request({
+    url: "/data/deleteFile",
+    method: "delete",
+    data: {
+      file_id: fileId,
+    },
+  });
+};
+
+export const reqDeleteFilesInBatches = (fileIdArr) => {
+  return request({
+    url: "/data/bulkDelete",
+    method: "delete",
+    data: {
+      file_list: fileIdArr,
+    },
+  });
+};

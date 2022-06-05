@@ -5,6 +5,7 @@ import UploadBox from "./UploadBox.vue";
 import ProgressLinear from "./ProgressLinear.vue";
 import RightClickMenu from "./RightClickMenu.vue";
 import FileShow from './FileShow.vue';
+import FileTable from './FileTable.vue';
 
 const components = [
   LoginBox,
@@ -13,7 +14,8 @@ const components = [
   UploadBox,
   ProgressLinear,
   RightClickMenu,
-  FileShow
+  FileShow,
+  FileTable
 ];
 
 const install = function (Vue) {

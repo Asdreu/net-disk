@@ -111,10 +111,10 @@ export default {
   },
   methods: {
     async getFileData() {
-      const params = {
+      /* const params = {
         page: this.page,
         limit: this.limit,
-      };
+      }; */
       try {
         const result = await this.$store.dispatch(
           "getTimelineDataLimit",

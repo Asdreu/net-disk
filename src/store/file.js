@@ -2,6 +2,11 @@ import {
   reqUploadChunk,
   reqUploadMiniPic,
   reqGetTimelineDataLimit,
+  reqGetAllTimelineData,
+  reqGetAllImageData,
+  reqGetAllVideoData,
+  reqDeleteFileById,
+  reqDeleteFilesInBatches,
 } from "../api/index.js";
 
 const actions = {
@@ -26,6 +31,52 @@ const actions = {
   async getTimelineDataLimit({ commit }, params) {
     const result = await reqGetTimelineDataLimit(params);
     if (result.code === 800) {
+      return result.data;
+    } else {
+      return Promise.reject(new Error(result.message));
+    }
+  },
+
+  async getAllTimelineData() {
+    const result = await reqGetAllTimelineData();
+    if (result.code === 800) {
+      return result.data;
+    } else {
+      return Promise.reject(new Error(result.message));
+    }
+  },
+
+  async getAllImageData() {
+    const result = await reqGetAllImageData();
+    if (result.code === 800) {
+      return result.data;
+    } else {
+      return Promise.reject(new Error(result.message));
+    }
+  },
+
+  async getAllVideoData() {
+    const result = await reqGetAllVideoData();
+    if (result.code === 800) {
+      return result.data;
+    } else {
+      return Promise.reject(new Error(result.message));
+    }
+  },
+
+  async deleteFileById({ commit }, fileId) {
+    const result = await reqDeleteFileById(fileId);
+    if (result.code === 808) {
+      return "OK";
+    } else {
+      return Promise.reject(new Error(result.message));
+    }
+  },
+
+  async deleteFilesInBatches({ commit }, fileIdArr) {
+    const result = await reqDeleteFilesInBatches(fileIdArr);
+    if (result.code === 814) {
+      // 返回批量删除成功的文件ID
       return result.data;
     } else {
       return Promise.reject(new Error(result.message));
