@@ -9,6 +9,10 @@ import {
   reqDeleteFilesInBatches,
 } from "../api/index.js";
 
+const state = {
+  allTimelineData: []
+};
+
 const actions = {
   async uploadChunk({ commit }, { params, onUploadProgress }) {
     const result = await reqUploadChunk(params, onUploadProgress);
@@ -37,9 +41,10 @@ const actions = {
     }
   },
 
-  async getAllTimelineData() {
+  async getAllTimelineData({ commit }) {
     const result = await reqGetAllTimelineData();
     if (result.code === 800) {
+      commit("GETALLTIMELINEDATA", result.data);
       return result.data;
     } else {
       return Promise.reject(new Error(result.message));
@@ -84,9 +89,11 @@ const actions = {
   },
 };
 
-const mutations = {};
-
-const state = {};
+const mutations = {
+  GETALLTIMELINEDATA(state, data) {
+    state.allTimelineData = data;
+  }
+};
 
 export default {
   actions,

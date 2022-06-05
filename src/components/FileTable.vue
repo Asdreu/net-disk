@@ -107,6 +107,7 @@ export default {
           text: "删除文件成功",
         });
         // TODO: 将删除操作发布到事件总线
+        this.$bus.$emit("alter", { type: "delete", fileId: fileId });
         for (let index in this.filesList) {
           if (this.filesList[index].file_id === fileId) {
             this.filesList.splice(index, 1);

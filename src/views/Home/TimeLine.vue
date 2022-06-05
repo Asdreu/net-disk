@@ -18,7 +18,7 @@
               hover
               v-for="item in items"
               :key="item.file_id"
-              @click.right.prevent="rightClickHandler($event, item)"
+              @click.right.prevent="handleRightClick($event, item)"
               @click.left.prevent="leftClickFile = item"
             >
               <div
@@ -39,7 +39,7 @@
     <right-click-menu
       v-if="rightClickFile"
       :coordinate="coordinate"
-      @file-action="handleFile"
+      @file-action="handleMenuAction"
     ></right-click-menu>
 
     <!-- 文件展示 -->
@@ -109,9 +109,11 @@ export default {
   },
   mounted() {
     // 监听滚轮事件
-    window.addEventListener("scroll", this.scrollHandler);
+    window.addEventListener("scroll", this.handleScrollEvent);
     // 监听上传事件
     this.$bus.$on("upload-files", this.handleFilesUpload);
+    // 监听文件修改
+    this.$bus.$on("alter", this.handleFileAlter);
   },
   methods: {
     async getFileData() {
@@ -130,12 +132,15 @@ export default {
       }
     },
 
-    async scrollHandler() {
+    async handleScrollEvent() {
       this.rightClickFile = null;
       this.leftClickFile = null;
       if (
-        Math.abs(this.scrollHeight - this.clientHeight -
-          document.documentElement.scrollTop) < 1 &&
+        Math.abs(
+          this.scrollHeight -
+            this.clientHeight -
+            document.documentElement.scrollTop
+        ) < 1 &&
         !this.isAll
       ) {
         // const fileData = await this.getFileData();
@@ -189,17 +194,57 @@ export default {
       }
     },
 
-    rightClickHandler(event, file) {
+    handleRightClick(event, file) {
       this.coordinate.x = event.clientX;
       this.coordinate.y = event.clientY;
       this.rightClickFile = file;
     },
 
     // 文件删除、下载操作
-    handleFile(action) {
+    async handleMenuAction(action) {
       switch (action) {
-        case "cancel":
-          this.rightClickFile = null;
+        case "open":
+          this.leftClickFile = this.rightClickFile;
+          break;
+        case "delete":
+          try {
+            await this.$store.dispatch(
+              "deleteFileById",
+              this.rightClickFile.file_id
+            );
+            this.$bus.$emit("alter", {
+              type: "delete",
+              fileId: this.rightClickFile.file_id,
+            });
+          } catch (error) {
+            this.$store.commit("alterSnackbar", {
+              color: "error",
+              text: error.message,
+            });
+          }
+          break;
+        default:
+          break;
+      }
+      this.rightClickFile = null;
+    },
+
+    handleFileAlter(params) {
+      const { type, fileId } = params;
+      switch (type) {
+        case "delete":
+          for (let i in this.files) {
+            for (let j in this.files[i]) {
+              if (this.files[i][j].file_id === fileId) {
+                this.files[i].splice(j, 1);
+                if (this.files[i].length === 0) {
+                  this.files.splice(i, 1);
+                }
+                return;
+              }
+            }
+          }
+        case "rename":
           break;
         default:
           break;

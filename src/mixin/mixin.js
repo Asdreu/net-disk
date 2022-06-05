@@ -16,6 +16,7 @@ export const mixin = {
   async mounted() {
     await this.init();
     this.$bus.$on("upload-files", this.handleFilesUpload);
+    this.$bus.$on("alter", this.handleFileAlter);
   },
   methods: {
     async init() {
@@ -51,5 +52,16 @@ export const mixin = {
         }
       });
     },
+
+    handleFileAlter(params) {
+      const { type, fileId } = params;
+      switch (type) {
+        case "delete":
+          break;
+      
+        default:
+          break;
+      }
+    }
   },
 };
