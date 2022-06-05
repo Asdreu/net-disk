@@ -44,3 +44,19 @@ export const reqUploadChunk = (params, onUploadProgress) => {
     onUploadProgress: onUploadProgress,
   });
 };
+
+export const reqUploadMiniPic = (params) => {
+  return request({
+    url: "/upload/completed",
+    method: "post",
+    data: params,
+  });
+};
+
+export const reqGetTimelineDataLimit = (params) => {
+  return request({
+    url: "/data/getTimelineDataLimit",
+    method: "get",
+    data: params,
+  });
+};
