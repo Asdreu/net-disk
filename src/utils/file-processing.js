@@ -17,7 +17,7 @@ export const cutBlob = (file) => {
   return new Promise((resolve, reject) => {
     for (let i = 0; i < chunkNum; i++) {
       startIndex = i * chunkSize;
-      endIndex = startIndex = chunkSize;
+      endIndex = startIndex + chunkSize;
 
       endIndex > file.size && (endIndex = file.size);
 

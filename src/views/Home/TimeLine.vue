@@ -18,8 +18,8 @@
               hover
               v-for="item in items"
               :key="item.file_id"
-              @click="currentFile = item"
               @click.right.prevent="rightClickHandler($event, item)"
+              @click.left.prevent="leftClickFile = item"
             >
               <div
                 class="img-box"
@@ -41,6 +41,9 @@
       :coordinate="coordinate"
       @file-action="handleFile"
     ></right-click-menu>
+    
+    <!-- 文件展示 -->
+    <file-show v-if="leftClickFile" :file.sync="leftClickFile"></file-show>
   </div>
 </template>
 
@@ -59,8 +62,8 @@ export default {
       clientHeight: 0,
       // 是否获取到了全部数据
       isAll: false,
-      // 鼠标点击选取的文件
-      currentFile: null,
+      // 鼠标左击选取的文件
+      leftClickFile: null,
       // 鼠标右击选取的文件
       rightClickFile: null,
       // 鼠标右击客户端屏幕坐标
@@ -68,6 +71,8 @@ export default {
         x: 0,
         y: 0,
       },
+      // 所有文件资源的日期
+      allDate: [],
     };
   },
   directives: {
@@ -88,6 +93,11 @@ export default {
   },
   async created() {
     this.files = await this.getFileData();
+    this.files.forEach((item) => {
+      if (!this.allDate.includes(item[0].file_time)) {
+        this.allDate.push(item[0].file_time);
+      }
+    });
     this.$nextTick(() => {
       this.scrollHeight = document.documentElement.scrollHeight;
       this.clientHeight = document.documentElement.clientHeight;
@@ -122,19 +132,26 @@ export default {
 
     async scrollHandler() {
       this.rightClickFile = null;
+      this.leftClickFile = null;
       if (
         this.scrollHeight - this.clientHeight ===
           document.documentElement.scrollTop &&
         !this.isAll
       ) {
         const fileData = await this.getFileData();
-        if (fileData.length === 0) {
+        /* if (fileData.length === 0) {
           this.isAll = true;
           return;
-        }
+        } */
 
         fileData.forEach((item) => {
-          this.files.push(item);
+          if (this.allDate.includes(item[0].file_time)) {
+            this.isAll = true;
+            return;
+          } else {
+            this.files.push(item);
+            this.allDate.push(item[0].file_time);
+          }
         });
 
         // 渲染后重新计算
@@ -172,7 +189,7 @@ export default {
         default:
           break;
       }
-    }
+    },
   },
 };
 </script>
