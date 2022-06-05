@@ -41,7 +41,7 @@
       :coordinate="coordinate"
       @file-action="handleFile"
     ></right-click-menu>
-    
+
     <!-- 文件展示 -->
     <file-show v-if="leftClickFile" :file.sync="leftClickFile"></file-show>
   </div>
@@ -54,6 +54,8 @@ export default {
     return {
       page: 0,
       limit: 5,
+      // 所有文件
+      allFiles: [],
       // 文件数据
       files: [],
       // 文档高度
@@ -92,12 +94,14 @@ export default {
     },
   },
   async created() {
-    this.files = await this.getFileData();
-    this.files.forEach((item) => {
+    this.allFiles = await this.getFileData();
+    this.files = this.allFiles.slice(0, this.limit);
+    this.allFiles.splice(0, this.limit);
+    /* this.files.forEach((item) => {
       if (!this.allDate.includes(item[0].file_time)) {
         this.allDate.push(item[0].file_time);
       }
-    });
+    }); */
     this.$nextTick(() => {
       this.scrollHeight = document.documentElement.scrollHeight;
       this.clientHeight = document.documentElement.clientHeight;
@@ -116,11 +120,7 @@ export default {
         limit: this.limit,
       }; */
       try {
-        const result = await this.$store.dispatch(
-          "getTimelineDataLimit",
-          params
-        );
-        this.page++;
+        const result = await this.$store.dispatch("getAllTimelineData");
         return result;
       } catch (error) {
         this.$store.commit("alterSnackbar", {
@@ -134,17 +134,17 @@ export default {
       this.rightClickFile = null;
       this.leftClickFile = null;
       if (
-        this.scrollHeight - this.clientHeight ===
-          document.documentElement.scrollTop &&
+        Math.abs(this.scrollHeight - this.clientHeight -
+          document.documentElement.scrollTop) < 1 &&
         !this.isAll
       ) {
-        const fileData = await this.getFileData();
+        // const fileData = await this.getFileData();
         /* if (fileData.length === 0) {
           this.isAll = true;
           return;
         } */
 
-        fileData.forEach((item) => {
+        /* fileData.forEach((item) => {
           if (this.allDate.includes(item[0].file_time)) {
             this.isAll = true;
             return;
@@ -152,7 +152,22 @@ export default {
             this.files.push(item);
             this.allDate.push(item[0].file_time);
           }
-        });
+        }); */
+
+        // TODO: 改成网络请求加载分页
+        if (this.allFiles.length < this.limit) {
+          this.allFiles.forEach((item) => {
+            this.files.push(item);
+          });
+          this.isAll = true;
+          return;
+        } else {
+          const temp = this.allFiles.slice(0, this.limit);
+          temp.forEach((item) => {
+            this.files.push(item);
+          });
+          this.allFiles.splice(0, this.limit);
+        }
 
         // 渲染后重新计算
         this.$nextTick(() => {
