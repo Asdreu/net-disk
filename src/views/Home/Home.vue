@@ -63,7 +63,7 @@
 
     <v-main>
       <v-container fluid>
-        <upload-box :userId="userInfo.userId"></upload-box>
+        <upload-box v-if="/timeline/.test($route.fullPath)" :userId="userInfo.userId"></upload-box>
         <transition name="slide-fade" mode="out-in">
           <keep-alive>
             <router-view></router-view>

@@ -218,8 +218,7 @@ export default {
         text: "所有文件上传成功",
       });
 
-      // 触发上传事件
-      this.$bus.$emit("upload-files", this.completedFiles);
+      this.$store.commit("handleFileUpload", this.completedFiles);
 
       this.completedNum = 0;
       this.files = [];

@@ -26,11 +26,11 @@ const routes = [
       },
       {
         path: "image",
-        component: () => import("../views/Home/Image.vue"),
+        component: () => import("../views/Home/ImageTable.vue"),
       },
       {
         path: "video",
-        component: () => import("../views/Home/Video.vue"),
+        component: () => import("../views/Home/VideoTable.vue"),
       },
       {
         path: "folder",
