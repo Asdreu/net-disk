@@ -106,13 +106,7 @@ export default {
           color: "success",
           text: "删除文件成功",
         });
-        // TODO: 将删除操作发布到事件总线
-        this.$bus.$emit("alter", { type: "delete", fileId: fileId });
-        for (let index in this.filesList) {
-          if (this.filesList[index].file_id === fileId) {
-            this.filesList.splice(index, 1);
-          }
-        }
+        this.$store.commit("handleFileDelete", fileId);
       } catch (error) {
         this.$store.commit("alterSnackbar", {
           color: "error",
@@ -137,12 +131,7 @@ export default {
         });
 
         for (let id of result) {
-          // TODO: 将删除操作发布到全局事件总线
-          for (let index in this.filesList) {
-            if (this.filesList[index].file_id === id) {
-              this.filesList.splice(index, 1);
-            }
-          }
+          this.$store.commit("handleFileDelete", id);
         }
         // 重置选择列表
         this.selectedFiles = [];

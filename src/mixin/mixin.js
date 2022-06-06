@@ -1,8 +1,6 @@
 export const mixin = {
   data() {
     return {
-      files: [],
-      filesType: "",
       headers: [
         { text: "文件", value: "file_mini" },
         { text: "名称", value: "file_name" },
@@ -13,17 +11,23 @@ export const mixin = {
       ],
     };
   },
+  computed: {
+    files() {
+      if (/image/.test(this.$route.fullPath)) {
+        return this.$store.state.file.imageData;
+      } else {
+        return this.$store.state.file.videoData;
+      }
+    }
+  },
   async mounted() {
     await this.init();
-    this.$bus.$on("upload-files", this.handleFilesUpload);
-    this.$bus.$on("alter", this.handleFileAlter);
   },
   methods: {
     async init() {
       if (/image/.test(this.$route.fullPath)) {
-        this.filesType = "image";
         try {
-          this.files = await this.$store.dispatch("getAllImageData");
+          await this.$store.dispatch("getAllImageData");
           return "OK";
         } catch (error) {
           this.$store.commit("alterSnackbar", {
@@ -32,9 +36,8 @@ export const mixin = {
           });
         }
       } else if (/video/.test(this.$route.fullPath)) {
-        this.filesType = "video";
         try {
-          this.files = await this.$store.dispatch("getAllVideoData");
+          await this.$store.dispatch("getAllVideoData");
           return "OK";
         } catch (error) {
           this.$store.commit("alterSnackbar", {
@@ -44,24 +47,5 @@ export const mixin = {
         }
       }
     },
-
-    handleFilesUpload(uploadFiles) {
-      uploadFiles.forEach((file) => {
-        if (new RegExp(this.filesType).test(file.file_type)) {
-          this.files.unshift(file);
-        }
-      });
-    },
-
-    handleFileAlter(params) {
-      const { type, fileId } = params;
-      switch (type) {
-        case "delete":
-          break;
-      
-        default:
-          break;
-      }
-    }
   },
 };

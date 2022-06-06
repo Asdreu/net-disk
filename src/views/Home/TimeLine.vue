@@ -52,18 +52,10 @@ export default {
   name: "TimeLine",
   data() {
     return {
-      page: 0,
-      limit: 5,
-      // 所有文件
-      allFiles: [],
-      // 文件数据
-      files: [],
       // 文档高度
       scrollHeight: 0,
       // 浏览器可视区域高度
       clientHeight: 0,
-      // 是否获取到了全部数据
-      isAll: false,
       // 鼠标左击选取的文件
       leftClickFile: null,
       // 鼠标右击选取的文件
@@ -73,9 +65,15 @@ export default {
         x: 0,
         y: 0,
       },
-      // 所有文件资源的日期
-      allDate: [],
     };
+  },
+  computed: {
+    files() {
+      return this.$store.state.file.timelineData;
+    },
+    isAll() {
+      return this.$store.state.file.isAllTimelineData;
+    },
   },
   directives: {
     loading: {
@@ -94,14 +92,7 @@ export default {
     },
   },
   async created() {
-    this.allFiles = await this.getFileData();
-    this.files = this.allFiles.slice(0, this.limit);
-    this.allFiles.splice(0, this.limit);
-    /* this.files.forEach((item) => {
-      if (!this.allDate.includes(item[0].file_time)) {
-        this.allDate.push(item[0].file_time);
-      }
-    }); */
+    await this.getFileData();
     this.$nextTick(() => {
       this.scrollHeight = document.documentElement.scrollHeight;
       this.clientHeight = document.documentElement.clientHeight;
@@ -110,17 +101,9 @@ export default {
   mounted() {
     // 监听滚轮事件
     window.addEventListener("scroll", this.handleScrollEvent);
-    // 监听上传事件
-    this.$bus.$on("upload-files", this.handleFilesUpload);
-    // 监听文件修改
-    this.$bus.$on("alter", this.handleFileAlter);
   },
   methods: {
     async getFileData() {
-      /* const params = {
-        page: this.page,
-        limit: this.limit,
-      }; */
       try {
         const result = await this.$store.dispatch("getAllTimelineData");
         return result;
@@ -143,54 +126,14 @@ export default {
         ) < 1 &&
         !this.isAll
       ) {
-        // const fileData = await this.getFileData();
-        /* if (fileData.length === 0) {
-          this.isAll = true;
-          return;
-        } */
-
-        /* fileData.forEach((item) => {
-          if (this.allDate.includes(item[0].file_time)) {
-            this.isAll = true;
-            return;
-          } else {
-            this.files.push(item);
-            this.allDate.push(item[0].file_time);
-          }
-        }); */
-
         // TODO: 改成网络请求加载分页
-        if (this.allFiles.length < this.limit) {
-          this.allFiles.forEach((item) => {
-            this.files.push(item);
-          });
-          this.isAll = true;
-          return;
-        } else {
-          const temp = this.allFiles.slice(0, this.limit);
-          temp.forEach((item) => {
-            this.files.push(item);
-          });
-          this.allFiles.splice(0, this.limit);
-        }
+        this.$store.commit("addTimelineData");
 
         // 渲染后重新计算
         this.$nextTick(() => {
           this.scrollHeight = document.documentElement.scrollHeight;
           this.clientHeight = document.documentElement.clientHeight;
         });
-      }
-    },
-
-    handleFilesUpload(uploadFiles) {
-      if (
-        this.files.length === 0 ||
-        this.files[0][0].file_time !== uploadFiles[0].file_time
-      ) {
-        // 翻转数组是为了展示时最新上传的文件放在最前面
-        this.files.unshift(uploadFiles.reverse());
-      } else {
-        this.files[0].unshift(...uploadFiles.reverse());
       }
     },
 
@@ -212,10 +155,7 @@ export default {
               "deleteFileById",
               this.rightClickFile.file_id
             );
-            this.$bus.$emit("alter", {
-              type: "delete",
-              fileId: this.rightClickFile.file_id,
-            });
+            this.$store.commit("handleFileDelete", this.rightClickFile.file_id);
           } catch (error) {
             this.$store.commit("alterSnackbar", {
               color: "error",
@@ -227,28 +167,6 @@ export default {
           break;
       }
       this.rightClickFile = null;
-    },
-
-    handleFileAlter(params) {
-      const { type, fileId } = params;
-      switch (type) {
-        case "delete":
-          for (let i in this.files) {
-            for (let j in this.files[i]) {
-              if (this.files[i][j].file_id === fileId) {
-                this.files[i].splice(j, 1);
-                if (this.files[i].length === 0) {
-                  this.files.splice(i, 1);
-                }
-                return;
-              }
-            }
-          }
-        case "rename":
-          break;
-        default:
-          break;
-      }
     },
   },
 };
