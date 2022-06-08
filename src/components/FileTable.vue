@@ -8,7 +8,7 @@
           v-model="searchKeyword"
           color="orange darken-1"
           append-icon="mdi-magnify"
-          label="表内查询"
+          label="搜索"
           single-line
           hide-details
         ></v-text-field>

@@ -156,12 +156,25 @@ export default {
               this.rightClickFile.file_id
             );
             this.$store.commit("handleFileDelete", this.rightClickFile.file_id);
+            this.$store.commit("alterSnackbar", {
+              color: "success",
+              text: "删除成功",
+            });
           } catch (error) {
             this.$store.commit("alterSnackbar", {
               color: "error",
               text: error.message,
             });
           }
+          break;
+        case "download":
+          const a = document.createElement("a");
+          a.setAttribute("href", this.rightClickFile.file_src);
+          a.click();
+          this.$store.commit("alterSnackbar", {
+            color: "success",
+            text: "已开始下载",
+          });
           break;
         default:
           break;

@@ -57,7 +57,7 @@ export const reqGetTimelineDataLimit = (params) => {
   return request({
     url: "/data/getTimelineDataLimit",
     method: "get",
-    data: params,
+    params: params,
   });
 };
 

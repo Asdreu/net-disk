@@ -1,5 +1,5 @@
 export const setUserInfo = (userInfo) => {
-  // userInfo 必须是一个对象
+  // userInfo 必须是一个对象或者数组
   sessionStorage.setItem("USERINFO", JSON.stringify(userInfo));
 };
 
