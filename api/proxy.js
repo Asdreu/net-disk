@@ -1,6 +1,6 @@
-const { createProxyMiddleware } = require("http-proxy-middleware");
+import { createProxyMiddleware } from "http-proxy-middleware";
 
-module.exports = (req, res) => {
+export default function handler(req, res) {
   if (!req.url.startsWith("/api")) {
     return;
   }
@@ -13,4 +13,4 @@ module.exports = (req, res) => {
       "^/api": "",
     },
   })(req, res);
-};
+}
