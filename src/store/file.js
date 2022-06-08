@@ -153,7 +153,6 @@ const mutations = {
     // imageData 和 videoData 数据更改
     for (let index in state.imageData) {
       if (state.imageData[index].file_id === fileId) {
-        console.log("111");
         state.imageData.splice(index, 1);
       }
     }
@@ -167,7 +166,6 @@ const mutations = {
     for (let i in state.timelineData) {
       for (let j in state.timelineData[i]) {
         if (state.timelineData[i][j].file_id === fileId) {
-          console.log("222");
           state.timelineData[i].splice(j, 1);
           if (state.timelineData[i].length === 0) {
             state.timelineData.splice(i, 1);

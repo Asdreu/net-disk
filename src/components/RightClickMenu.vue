@@ -52,6 +52,12 @@ export default {
           action: "open",
         },
         {
+          icon: "mdi-cloud-download",
+          title: "下载",
+          color: "green darken-3",
+          action: "download",
+        },
+        {
           icon: "mdi-rename-box",
           title: "重命名",
           color: "orange darken-1",
@@ -62,12 +68,6 @@ export default {
           title: "删除",
           color: "red darken-3",
           action: "delete",
-        },
-        {
-          icon: "mdi-cloud-download",
-          title: "下载",
-          color: "green darken-3",
-          action: "download",
         },
       ],
     };

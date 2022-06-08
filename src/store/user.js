@@ -5,7 +5,8 @@ import {
   reqRegister,
 } from "../api/index.js";
 import { setToken, getToken, removeToken } from "../utils/token.js";
-import { setUserInfo } from '../utils/temporary-user-info.js';
+import { setUserInfo } from "../utils/temporary-user-info.js";
+import { setFoldersInfo } from "../utils/temporary-folders-info.js";
 
 const state = {
   token: getToken(),
@@ -67,9 +68,11 @@ const mutations = {
   LOGIN(state, data) {
     state.token = getToken();
     state.userInfo = data.user;
+    state.folders = data.folders;
     // 会话存储用户信息
     setUserInfo(data.user);
-    state.folders = data.folders;
+    // 会话存储收藏夹信息
+    setFoldersInfo(data.folders);
   },
 
   GETQUESTIONS(state, questions) {
