@@ -20,6 +20,7 @@
     "@vue/cli-plugin-router": "~4.5.15",
     "@vue/cli-plugin-vuex": "~4.5.15",
     "@vue/cli-service": "~4.5.15",
+    "http-proxy-middleware": "^2.0.6",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
     "sass": "~1.32.0",
