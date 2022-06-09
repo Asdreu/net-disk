@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div class="ml-n10">
     <v-timeline v-if="files.length" dense align-top>
       <v-timeline-item
         v-for="(items, index) of files"
         :key="index"
         fill-dot
         small
-        color="orange darken-1"
+        color="indigo lighten-2"
       >
         <v-card class="elevation-2">
-          <v-card-title class="headline mb-n5">{{
+          <v-card-title class="mb-n5">{{
             items[0].file_time
           }}</v-card-title>
           <v-card-text class="d-flex justify-start align-center flex-wrap">
@@ -26,7 +26,7 @@
                 v-loading="{ src: item.file_mini, type: item.file_type }"
               >
                 <img class="img" src="../../../public/logo.png" />
-                <v-icon class="icon icon-hidden" color="orange darken-1" x-large
+                <v-icon class="icon icon-hidden" color="grey lighten-1" x-large
                   >mdi-play-circle-outline</v-icon
                 >
               </div>

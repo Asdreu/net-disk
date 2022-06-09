@@ -1,5 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
+import store from "../store/index.js";
 
 Vue.use(VueRouter);
 
@@ -11,6 +12,14 @@ const routes = [
   {
     path: "/login",
     component: () => import("../views/Login/Login.vue"),
+  },
+  {
+    path: "/register",
+    component: () => import("../views/Register/Register.vue"),
+  },
+  {
+    path: "/reset",
+    component: () => import("../views/Reset/Reset.vue"),
   },
   {
     path: "/home",
@@ -51,7 +60,20 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  next();
+  const token = store.state.user.token;
+  if (token) {
+    if (to.path === "/login") {
+      next("/home");
+    } else {
+      next();
+    }
+  } else {
+    if (/home/.test(to.fullPath)) {
+      next("/login");
+    } else {
+      next();
+    }
+  }
 });
 
 export default router;

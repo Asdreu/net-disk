@@ -4,7 +4,7 @@ const url =
     : "http://127.0.0.1:8081";
 
 module.exports = {
-  // publicPath: "./",
+  // publicPath: "/",
   lintOnSave: false,
   productionSourceMap: false,
 

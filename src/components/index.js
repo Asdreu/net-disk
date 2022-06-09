@@ -1,6 +1,3 @@
-import LoginBox from "./LoginBox.vue";
-import RegisterBox from "./RegisterBox.vue";
-import ResetBox from "./ResetBox.vue";
 import UploadBox from "./UploadBox.vue";
 import ProgressLinear from "./ProgressLinear.vue";
 import RightClickMenu from "./RightClickMenu.vue";
@@ -8,9 +5,6 @@ import FileShow from './FileShow.vue';
 import FileTable from './FileTable.vue';
 
 const components = [
-  LoginBox,
-  RegisterBox,
-  ResetBox,
   UploadBox,
   ProgressLinear,
   RightClickMenu,

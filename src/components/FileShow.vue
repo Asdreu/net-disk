@@ -7,29 +7,29 @@
       >
         <v-card
           class="card rounded-0 d-flex justify-center align-center"
-          width="85vw"
-          height="50vh"
+          width="50%"
+          height="70%"
           color="#000000a4"
         >
-          <v-icon
+          <!-- <v-icon
             class="close-icon"
             @click="closeFileShow"
             color="red"
             tag="button"
             >mdi-close-circle</v-icon
-          >
+          > -->
           <v-img
             v-if="/image/.test(fileData.file_type)"
             :src="fileData.file_src"
             contain
-            width="70%"
+            width="100%"
             height="100%"
           ></v-img>
           <video
             v-if="/video/.test(fileData.file_type)"
             :src="fileData.file_src"
             controls
-            width="70%"
+            width="100%"
             height="100%"
           ></video>
           <div></div>
@@ -76,11 +76,5 @@ export default {
 .external-box {
   width: 100vw;
   height: 100vh;
-}
-
-.close-icon {
-  position: absolute;
-  top: 5px;
-  right: 5px;
 }
 </style>
