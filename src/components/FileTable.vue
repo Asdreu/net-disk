@@ -2,11 +2,11 @@
   <div>
     <v-card>
       <v-card-title>
-        <h1>数据列表</h1>
+        <h4>数据列表</h4>
         <v-spacer></v-spacer>
         <v-text-field
           v-model="searchKeyword"
-          color="orange darken-1"
+          color="indigo lighten-1"
           append-icon="mdi-magnify"
           label="搜索"
           single-line
@@ -21,7 +21,8 @@
         :search="searchKeyword"
         :items-per-page="5"
         show-select
-        checkbox-color="orange darken-1"
+        :loading="filesList.length === 0 ? true: false"
+        checkbox-color="indigo lighten-1"
       >
         <template v-slot:item.file_mini="{ item }">
           <div
@@ -34,7 +35,7 @@
               backgroundSize: 'cover',
             }"
           >
-            <v-icon v-if="/video/.test(item.file_type)" color="orange"
+            <v-icon v-if="/video/.test(item.file_type)" color="grey lighten-1"
               >mdi-play-circle-outline</v-icon
             >
           </div>
@@ -53,7 +54,7 @@
               elevation="0"
               @click="currentFlie = item"
             >
-              <v-icon color="blue accent-4">mdi-folder-open</v-icon>
+              <v-icon color="blue accent-4" small>mdi-folder-open</v-icon>
             </v-btn>
             <v-btn
               fab
@@ -61,17 +62,20 @@
               elevation="0"
               @click="deleteFileById(item.file_id)"
             >
-              <v-icon color="red">mdi-delete-forever</v-icon>
+              <v-icon color="red" small>mdi-delete-forever</v-icon>
             </v-btn>
           </div>
         </template>
         <template v-slot:body.append v-if="selectedFiles.length !== 0">
-          <v-btn
-            class="mt-3 mb-3 ml-4"
-            color="orange darken-1"
-            @click="deleteFilesInBatches"
-            >批量删除</v-btn
-          >
+          <div style="width: 100%; height: 100%" class="d-flex justify-center">
+            <v-btn
+              text
+              class="mt-3 mb-3"
+              color="indigo lighten-1"
+              @click="deleteFilesInBatches"
+              >删除</v-btn
+            >
+          </div>
         </template>
       </v-data-table>
     </v-card>

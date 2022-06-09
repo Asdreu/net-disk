@@ -5,8 +5,8 @@ import {
   reqRegister,
 } from "../api/index.js";
 import { setToken, getToken, removeToken } from "../utils/token.js";
-import { setUserInfo } from "../utils/temporary-user-info.js";
-import { setFoldersInfo } from "../utils/temporary-folders-info.js";
+import { setUserInfo, removeUserInfo } from "../utils/temporary-user-info.js";
+import { setFoldersInfo, removeFoldersInfo } from "../utils/temporary-folders-info.js";
 
 const state = {
   token: getToken(),
@@ -60,6 +60,8 @@ const actions = {
 
   quit({ commit }) {
     removeToken();
+    removeUserInfo();
+    removeFoldersInfo();
     commit("QUIT");
   },
 };

@@ -1,6 +1,6 @@
 <template>
   <div class="upload-area">
-    <v-btn @click="addFiles" fab color="orange darken-1">
+    <v-btn @click="addFiles" fab color="indigo lighten-1">
       <span v-if="uploading" class="white--text"
         >{{ completedNum }}/{{ files.length }}</span
       >
@@ -233,8 +233,8 @@ export default {
 <style lang="scss" scoped>
 .upload-area {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: 6%;
+  right: 3%;
   z-index: 10;
 }
 

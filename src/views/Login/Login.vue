@@ -1,76 +1,126 @@
 <template>
-  <div class="login-page d-flex justify-center align-center">
-    <!-- 顶部信息栏 -->
-    <v-sheet
-      class="bar d-flex justify-end align-center"
-      height="45"
-      color="#0808084d"
-    >
-      <div class="pt-2 d-flex align-center">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <a v-bind="attrs" v-on="on" href="https://github.com/Asdreu">
-              <img src="../../assets/images/github.png" />
-            </a>
-          </template>
-          <span>我的 GitHub</span>
-        </v-tooltip>
-
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <a v-bind="attrs" v-on="on" href="https://github.com/Asdreu">
-              <img src="../../assets/images/weixin.png" />
-            </a>
-          </template>
-          <span>联系开发者</span>
-        </v-tooltip>
-
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <a v-bind="attrs" v-on="on" href="https://www.alonepluto.info/free">
-              <img src="../../assets/images/find.png" />
-            </a>
-          </template>
-          <span>发现更多</span>
-        </v-tooltip>
-      </div>
-    </v-sheet>
-
-    <login-box v-if="boxType === 'login'" :type.sync="boxType"></login-box>
-    <register-box
-      v-else-if="boxType === 'register'"
-      @cancel="boxType = 'login'"
-    ></register-box>
-    <reset-box v-else></reset-box>
+  <div class="login-box d-flex justify-center align-center">
+    <v-hover>
+      <template v-slot:default="{ hover }">
+        <v-card
+          class="d-flex flex-column justify-space-around align-center"
+          width="450"
+          outlined
+          :elevation="hover ? 8 : 4"
+        >
+          <v-container fluid>
+            <v-row justify="center" class="mt-2">
+              <v-col class="d-flex justify-center align-center">
+                <v-icon large color="indigo lighten-1"
+                  >mdi-shield-key-outline</v-icon
+                >
+                &nbsp;
+                <span
+                  class="font-weight-bold text-h5 indigo--text text--lighten-1"
+                  >登录</span
+                >
+              </v-col>
+            </v-row>
+            <v-row justify="center" class="mb-n8">
+              <v-col cols="10">
+                <v-text-field
+                  v-model="username"
+                  placeholder="用户名"
+                  dense
+                  outlined
+                  clearable
+                  color="indigo lighten-1"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row justify="center">
+              <v-col cols="10">
+                <v-text-field
+                  v-model="password"
+                  placeholder="密码"
+                  type="password"
+                  dense
+                  outlined
+                  clearable
+                  color="indigo lighten-1"
+                  @keyup.enter="login"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row justify="center" class="mt-n5">
+              <v-col cols="10" class="d-flex justify-center align-center">
+                <v-btn color="indigo lighten-1" width="100" @click="login"
+                  ><span class="white--text">登录</span></v-btn
+                >
+              </v-col>
+            </v-row>
+            <v-row justify="center" class="mt-4">
+              <v-col cols="10" class="d-flex justify-end align-center">
+                <router-link to="/register" class="text-decoration-none"
+                  ><span class="link">注册</span></router-link
+                >
+                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                <router-link to="/reset" class="text-decoration-none"
+                  ><span class="link">忘记密码?</span></router-link
+                >
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
+      </template>
+    </v-hover>
   </div>
 </template>
 
 <script>
+import SparkMD5 from "spark-md5";
+
 export default {
   name: "Login",
   data() {
     return {
-      boxType: "login",
+      username: "",
+      password: "",
     };
+  },
+  methods: {
+    async login() {
+      if (this.username === "" || this.password === "") {
+        this.$store.commit("alterSnackbar", {
+          color: "error",
+          text: "用户名和密码不能为空",
+        });
+        return;
+      }
+
+      try {
+        await this.$store.dispatch("login", {
+          username: this.username,
+          password: SparkMD5.hash(this.password),
+        });
+        this.$bus.$emit("on-login");
+        this.$router.push("/home");
+        this.$store.commit("alterSnackbar", {
+          color: "success",
+          text: "欢迎来到个人云盘",
+        });
+      } catch (error) {
+        this.$store.commit("alterSnackbar", {
+          color: "error",
+          text: error.message,
+        });
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.login-page {
+.login-box {
   height: 100vh;
-  background-image: url("../../assets/images/bg.jpg");
-  background-size: cover;
-  .bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    img {
-      width: 28px;
-      height: 28px;
-      margin: 0px 15px;
-    }
-  }
+}
+
+.link:hover {
+  color: #5C6BC0;
 }
 </style>

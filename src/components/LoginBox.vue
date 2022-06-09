@@ -92,6 +92,7 @@ export default {
           username: this.username,
           password: SparkMD5.hash(this.password),
         });
+        this.$bus.$emit("on-login");
         this.$router.push("/home");
         this.$store.commit("alterSnackbar", {
           color: "success",

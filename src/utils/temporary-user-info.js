@@ -6,3 +6,7 @@ export const setUserInfo = (userInfo) => {
 export const getUserInfo = () => {
   return JSON.parse(sessionStorage.getItem("USERINFO"));
 };
+
+export const removeUserInfo = () => {
+  sessionStorage.removeItem("USERINFO");
+};
