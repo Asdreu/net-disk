@@ -3,10 +3,15 @@ import {
   reqCheckUsername,
   reqGetQuestions,
   reqRegister,
+  reqGetUserQuestion,
+  reqResetPassword,
 } from "../api/index.js";
 import { setToken, getToken, removeToken } from "../utils/token.js";
 import { setUserInfo, removeUserInfo } from "../utils/temporary-user-info.js";
-import { setFoldersInfo, removeFoldersInfo } from "../utils/temporary-folders-info.js";
+import {
+  setFoldersInfo,
+  removeFoldersInfo,
+} from "../utils/temporary-folders-info.js";
 
 const state = {
   token: getToken(),
@@ -14,6 +19,8 @@ const state = {
   folders: [],
   questions: [],
   isLocked: false,
+  userQuestion: "",
+  userAnswer: "",
 };
 
 const actions = {
@@ -64,6 +71,25 @@ const actions = {
     removeFoldersInfo();
     commit("QUIT");
   },
+
+  async getUserQuestion({ commit }, username) {
+    const result = await reqGetUserQuestion(username);
+    if (result.code === 800) {
+      commit("GETUSERQUESTION", result.data);
+      return "OK";
+    } else {
+      return Promise.reject(new Error(result.message));
+    }
+  },
+
+  async resetPassword({ commit }, { username, password }) {
+    const result = await reqResetPassword({ username, password });
+    if (result.code === 808) {
+      return "OK";
+    } else {
+      return Promise.reject(new Error(result.message));
+    }
+  },
 };
 
 const mutations = {
@@ -88,6 +114,11 @@ const mutations = {
 
   changeIsLocked(state, status) {
     state.isLocked = status;
+  },
+
+  GETUSERQUESTION(state, data) {
+    state.userQuestion = data.user_question;
+    state.userAnswer = data.user_answer;
   },
 };
 
