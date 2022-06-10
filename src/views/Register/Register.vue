@@ -176,10 +176,6 @@ export default {
       }
     },
 
-    returnToLogin() {
-      this.$emit("cancel");
-    },
-
     async register() {
       if (this.password !== this.passwordAgain) {
         this.$store.commit("alterSnackbar", {
@@ -218,7 +214,7 @@ export default {
           color: "success",
           text: message,
         });
-        this.returnToLogin();
+        this.$router.push("/login");
       } catch (error) {
         this.$store.commit("alterSnackbar", {
           color: "error",

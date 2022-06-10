@@ -50,7 +50,7 @@ const routes = [
         component: () => import("../views/Home/Profile.vue"),
       },
     ],
-  },
+  }
 ];
 
 const router = new VueRouter({

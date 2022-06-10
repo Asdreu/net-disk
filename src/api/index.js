@@ -36,6 +36,27 @@ export const reqRegister = (params) => {
   });
 };
 
+export const reqGetUserQuestion = (username) => {
+  return request({
+    url: "/login/getuserquestion",
+    method: "get",
+    params: {
+      user_name: username,
+    },
+  });
+};
+
+export const reqResetPassword = ({ username, password }) => {
+  return request({
+    url: "/login/resetpassword",
+    method: "post",
+    data: {
+      user_name: username,
+      user_password: password,
+    },
+  });
+};
+
 export const reqUploadChunk = (params, onUploadProgress) => {
   return request({
     url: "/upload/upload",
