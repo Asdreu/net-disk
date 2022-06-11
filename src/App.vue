@@ -109,6 +109,7 @@ export default {
   },
   mounted() {
     this.$bus.$on("on-login", this.handleLogin);
+    this.$bus.$on("updateAvatar", this.handleAvatar);
     this.prepareUserInfo();
   },
   updated() {
@@ -120,6 +121,10 @@ export default {
     handleLogin() {
       this.canLogout = true;
       this.prepareUserInfo();
+    },
+
+    handleAvatar(avatar){
+      this.userInfo.userAvatar = avatar;
     },
 
     prepareUserInfo() {
@@ -143,6 +148,9 @@ export default {
           default:
             break;
         }
+      }
+      if (sessionStorage.getItem("avatar")) {
+        this.userInfo.userAvatar = sessionStorage.getItem("avatar");
       }
     },
 

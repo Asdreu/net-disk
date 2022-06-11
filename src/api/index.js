@@ -122,3 +122,22 @@ export const reqDeleteFilesInBatches = (fileIdArr) => {
     },
   });
 };
+
+export const reqUpdateAvatar = (avatarData) => {
+  return request({
+    url: "/user/uploadAvatar",
+    method: "post",
+    data: avatarData,
+  });
+};
+
+export const reqUpdateUserQuestion = (data) => {
+  return request({
+    url: "/user/editQuestion",
+    method: "put",
+    data: {
+      user_question: data.userQuestion,
+      user_answer: data.userAnswer,
+    },
+  });
+};

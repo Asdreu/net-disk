@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <!-- 导航 -->
-    <v-navigation-drawer app clipped permanent expand-on-hover>
+    <v-navigation-drawer app clipped permanent>
       <v-list nav>
         <v-list-item
           v-for="(item, index) in menu"
@@ -20,11 +20,12 @@
 
     <v-main>
       <v-container fluid>
-        <upload-box v-if="/timeline/.test($route.fullPath)" :userId="userInfo.userId"></upload-box>
+        <upload-box
+          v-if="/timeline/.test($route.fullPath)"
+          :userId="userInfo.userId"
+        ></upload-box>
         <transition name="slide-fade" mode="out-in">
-          <keep-alive>
-            <router-view></router-view>
-          </keep-alive>
+          <router-view></router-view>
         </transition>
       </v-container>
     </v-main>

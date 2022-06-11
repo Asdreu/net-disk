@@ -1,5 +1,5 @@
 <template>
-  <div class="ml-n10">
+  <div>
     <v-timeline v-if="files.length" dense align-top>
       <v-timeline-item
         v-for="(items, index) of files"
