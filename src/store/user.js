@@ -5,6 +5,8 @@ import {
   reqRegister,
   reqGetUserQuestion,
   reqResetPassword,
+  reqUpdateAvatar,
+  reqUpdateUserQuestion
 } from "../api/index.js";
 import { setToken, getToken, removeToken } from "../utils/token.js";
 import { setUserInfo, removeUserInfo } from "../utils/temporary-user-info.js";
@@ -90,6 +92,25 @@ const actions = {
       return Promise.reject(new Error(result.message));
     }
   },
+
+  async updateAvatar({ commit }, avatarData) {
+    const result = await reqUpdateAvatar(avatarData);
+    if (result.code === 812) {
+      sessionStorage.setItem("avatar", result.user_avatar);
+      return "OK";
+    } else {
+      return Promise.reject(new Error(result.message));
+    }
+  },
+
+  async updateUserQuestion({ commit }, data) {
+    const result = await reqUpdateUserQuestion(data);
+    if (result.code === 808) {
+      return "OK";
+    } else {
+      return Promise.reject(new Error(result.message));
+    }
+  }
 };
 
 const mutations = {
