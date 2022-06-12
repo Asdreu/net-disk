@@ -40,7 +40,8 @@ const actions = {
   async getTimelineDataLimit({ commit }, params) {
     const result = await reqGetTimelineDataLimit(params);
     if (result.code === 800) {
-      return result.data;
+      commit("GETTIMELINEDATALIMIT", result.data);
+      return "OK";
     } else {
       return Promise.reject(new Error(result.message));
     }
@@ -127,6 +128,17 @@ const mutations = {
     }
   },
 
+  /* GETTIMELINEDATALIMIT(state, data) {
+    if (data.length === 0) {
+      state.isAllTimelineData = true;
+      return;
+    }
+
+    for (let item of data) {
+      state.timelineData.push(item);
+    }
+  }, */
+
   handleFileUpload(state, files) {
     // timelineData 数据更改
     if (
@@ -174,6 +186,10 @@ const mutations = {
         }
       }
     }
+  },
+
+  handleIsAll(state) {
+    state.isAllTimelineData = false;
   },
 };
 
