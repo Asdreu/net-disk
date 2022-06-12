@@ -9,9 +9,7 @@
         color="indigo lighten-2"
       >
         <v-card class="elevation-2">
-          <v-card-title class="mb-n5">{{
-            items[0].file_time
-          }}</v-card-title>
+          <v-card-title class="mb-n5">{{ items[0].file_time }}</v-card-title>
           <v-card-text class="d-flex justify-start align-center flex-wrap">
             <v-card
               class="rounded-0 mt-5 mr-5"
@@ -98,15 +96,21 @@ export default {
       this.clientHeight = document.documentElement.clientHeight;
     });
   },
-  mounted() {
+  /* mounted() {
     // 监听滚轮事件
     window.addEventListener("scroll", this.handleScrollEvent);
+  }, */
+  activated() {
+    this.scrollHeight = document.documentElement.scrollHeight;
+    window.addEventListener("scroll", this.handleScrollEvent);
+  },
+  deactivated() {
+    window.removeEventListener("scroll", this.handleScrollEvent);
   },
   methods: {
     async getFileData() {
       try {
-        const result = await this.$store.dispatch("getAllTimelineData");
-        return result;
+        await this.$store.dispatch("getAllTimelineData");
       } catch (error) {
         this.$store.commit("alterSnackbar", {
           color: "error",
@@ -126,7 +130,6 @@ export default {
         ) < 1 &&
         !this.isAll
       ) {
-        // TODO: 改成网络请求加载分页
         this.$store.commit("addTimelineData");
 
         // 渲染后重新计算

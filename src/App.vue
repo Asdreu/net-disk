@@ -180,6 +180,7 @@ export default {
     quit() {
       this.canLogout = false;
       this.$store.dispatch("quit");
+      this.$store.commit("handleIsAll");
       this.$router.push("/login");
     },
   },
