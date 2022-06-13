@@ -5,7 +5,7 @@
       class="pt-5 mr-n5 d-flex flex-column justify-center align-center"
       width="35%"
     >
-      <div class="avatar">
+      <div class="avatar mb-5">
         <div
           class="avatar"
           v-if="userInfo.userAvatar"
@@ -23,25 +23,50 @@
         ></v-file-input>
       </div>
 
-      <div class="profile-info d-flex flex-column mt-5 mb-12 ml-10 pl-10">
-        <span
-          >用户名: <span>{{ userInfo.username }}</span></span
+      <v-container fluid>
+        <v-row justify="center" class="mr-4"
+          ><v-col cols="6" class="d-flex justify-end pr-2"
+            ><span>用户名:</span></v-col
+          >
+          <v-col cols="6" class="d-flex justify-start pl-0"
+            ><span>{{ userInfo.username }}</span></v-col
+          ></v-row
         >
-        <span
-          >用户 ID: <span>{{ userInfo.userId }}</span></span
+        <v-row justify="center" class="mr-4"
+          ><v-col cols="6" class="d-flex justify-end pr-2"
+            ><span>用户ID:</span></v-col
+          >
+          <v-col cols="6" class="d-flex justify-start pl-0"
+            ><span>{{ userInfo.userId }}</span></v-col
+          ></v-row
         >
-        <span
-          >注册时间: <span>{{ userInfo.registerTime }}</span></span
+        <v-row justify="center" class="mr-4"
+          ><v-col cols="6" class="d-flex justify-end pr-2"
+            ><span>注册时间:</span></v-col
+          >
+          <v-col cols="6" class="d-flex justify-start pl-0"
+            ><span>{{ userInfo.registerTime }}</span></v-col
+          ></v-row
         >
-        <span
-          >密保问题: <span>{{ userInfo.userQuestion }}</span></span
+        <v-row justify="center" class="mr-4"
+          ><v-col cols="6" class="d-flex justify-end pr-2"
+            ><span>密保问题:</span></v-col
+          >
+          <v-col cols="6" class="d-flex justify-start pl-0"
+            ><span>{{ userInfo.userQuestion }}</span></v-col
+          ></v-row
         >
-        <span
-          >密保答案: <span>{{ userInfo.userAnswer }}</span></span
+        <v-row justify="center" class="mr-4"
+          ><v-col cols="6" class="d-flex justify-end pr-2"
+            ><span>密保答案:</span></v-col
+          >
+          <v-col cols="6" class="d-flex justify-start pl-0"
+            ><span>{{ userInfo.userAnswer }}</span></v-col
+          ></v-row
         >
-      </div>
+      </v-container>
 
-      <div class="d-flex justify-center mb-5" style="width: 100%">
+      <div class="d-flex justify-center mt-5 mb-5" style="width: 100%">
         <v-btn
           class="mr-8 white--text"
           width="100"
