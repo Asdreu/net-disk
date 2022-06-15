@@ -37,7 +37,7 @@ export const cutBlob = (file) => {
   });
 };
 
-export const makeMini = async (file) => {
+export async function makeMini(file){
   const url = URL.createObjectURL(file);
   if (/image/.test(file.type)) {
     // 制作图片迷你图
@@ -66,7 +66,6 @@ export const makeMini = async (file) => {
     function makeMiniPic() {
       return new Promise((resolve, reject) => {
         const video = document.createElement("video");
-        video.src = url;
         video.onloadeddata = () => {
           const width = video.videoWidth;
           const height = video.videoHeight;
@@ -80,6 +79,7 @@ export const makeMini = async (file) => {
           const base64 = canvas.toDataURL("image/png");
           resolve(base64);
         };
+        video.src = url;
       });
     }
     const result = await makeMiniPic();
