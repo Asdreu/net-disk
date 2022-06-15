@@ -56,10 +56,10 @@
             </v-row>
             <v-row justify="center" class="mt-4">
               <v-col cols="10" class="d-flex justify-end align-center">
-                <router-link to="/register" class="text-decoration-none"
+                <!-- <router-link to="/register" class="text-decoration-none"
                   ><span class="link">注册</span></router-link
-                >
-                <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                > -->
+                <!-- <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span> -->
                 <router-link to="/reset" class="text-decoration-none"
                   ><span class="link">忘记密码?</span></router-link
                 >

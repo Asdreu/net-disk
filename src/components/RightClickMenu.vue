@@ -57,12 +57,12 @@ export default {
           color: "green darken-3",
           action: "download",
         },
-        {
+        /* {
           icon: "mdi-rename-box",
           title: "重命名",
           color: "orange darken-1",
           action: "rename",
-        },
+        }, */
         {
           icon: "mdi-delete-forever",
           title: "删除",

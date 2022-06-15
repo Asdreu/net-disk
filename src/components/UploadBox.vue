@@ -189,6 +189,7 @@ export default {
 
         // 制作迷你图
         let mini = await makeMini(file);
+        console.log(mini);
         const params = {
           hash: this.hash,
           chunkNum: chunks.fileInfo.total,
