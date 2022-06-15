@@ -103,6 +103,7 @@
               color="indigo lighten-1"
               width="100%"
               class="white--text font-weight-bold"
+              @click="register"
             >
               <v-icon>mdi-account-plus</v-icon>
               &nbsp; 注册</v-btn
