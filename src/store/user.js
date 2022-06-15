@@ -40,7 +40,6 @@ const actions = {
 
   async checkUsername(context, username) {
     const result = await reqCheckUsername(username);
-    console.log(result);
     if (result.code === 810) {
       return "OK";
     } else {
